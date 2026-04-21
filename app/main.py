@@ -266,7 +266,6 @@ def home() -> str:
 def health() -> dict[str, str]:
     return {"status": "ok", "env": settings.app_env}
 
-
 @app.post("/chat", response_model=ChatResponse)
 def chat(payload: ChatRequest) -> ChatResponse:
     return _run_chat(payload)

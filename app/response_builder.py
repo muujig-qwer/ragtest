@@ -96,14 +96,24 @@ def _person_label(row: Dict[str, Any]) -> str:
 
 def _format_prisoner_row(row: Dict[str, Any]) -> str:
     person = _person_label(row)
-    status = row.get("WFM_STATUS_NAME")
-    birth = row.get("DATE_OF_BIRTH")
-
+    compact_row = _compact_row(row)
+    
     parts = [person]
-    if status:
-        parts.append(f"төлөв: {status}")
-    if birth:
-        parts.append(f"төрсөн огноо: {_display_value(birth)}")
+    seen_keys = {"LAST_NAME", "FIRST_NAME", "NICKNAME", "PRISONER_NUMBER", "PRISONER_ID"}
+
+    for key, value in compact_row.items():
+        if key.upper() in seen_keys:
+            continue
+            
+        if key.upper() == "WFM_STATUS_NAME":
+            parts.append(f"төлөв: {value}")
+        elif key.upper() == "DATE_OF_BIRTH":
+            parts.append(f"төрсөн огноо: {_display_value(value)}")
+        elif key.upper() == "STATE_REG_NUMBER":
+            parts.append(f"РД: {value}")
+        else:
+            parts.append(f"{key}: {_display_value(value)}")
+
     return ", ".join(parts) + "."
 
 

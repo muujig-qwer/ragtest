@@ -1,4 +1,4 @@
-﻿from contextlib import contextmanager
+from contextlib import contextmanager
 from typing import Any, Dict, List
 
 
@@ -34,6 +34,12 @@ class OracleExecutor:
                 rows = cur.fetchall()
 
         return [dict(zip(col_names, row)) for row in rows]
+
+    def get_columns(self, view_name: str) -> List[str]:
+        with self._connect() as conn:
+            with conn.cursor() as cur:
+                cur.execute(f"SELECT * FROM {view_name} WHERE 1=0")
+                return [d[0] for d in (cur.description or [])]
 
 
 class MockExecutor:

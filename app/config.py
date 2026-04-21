@@ -1,4 +1,4 @@
-﻿from functools import lru_cache
+from functools import lru_cache
 from typing import List
 
 from pydantic import Field
@@ -16,9 +16,10 @@ class Settings(BaseSettings):
     db_timeout_sec: int = 8
     default_row_limit: int = 20
 
-    llm_provider: str = "mock"
-    llm_model: str = "gpt-4.1-mini"
+    llm_provider: str = "gemini"
+    llm_model: str = "gemini-2.5-flash"
     openai_api_key: str = ""
+    gemini_api_key: str = ""
 
     allowed_objects: List[str] = [
         "PRI_PRISONER_VIEW",
